@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz RC Service — AD Crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f5f0;
+    --gray: #1c1c1c;
+    --gray2: #242424;
+    --gray3: #333;
+    --dim: #666;
+    --green: #b8f050;
+    --red: #ff4444;
+    --border: rgba(255,255,255,0.08);
+  }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5rem;
+  }
+
+  /* HEADER */
+  .header {
+    width: 100%;
+    background: var(--black);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .logo-svg { height: 56px; width: auto; flex-shrink: 0; }
+  .header-meta {
+    border-left: 1px solid var(--border);
+    padding-left: 1.5rem;
+  }
+  .header-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 2px;
+  }
+  .header-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    width: 100%;
+    max-width: 620px;
+    padding: 2rem 1.5rem 0;
+  }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 2px;
+    background: var(--gray3);
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--white);
+    transition: width 0.4s ease;
+  }
+  .q-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* CONTAINER */
+  .container {
+    width: 100%;
+    max-width: 620px;
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  /* QUESTION */
+  .q-card {
+    background: var(--gray);
+    border: 1px solid var(--border);
+    padding: 1.75rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .q-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.75rem;
+  }
+  .q-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 6px; }
+  .opt {
+    background: var(--gray2);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    color: var(--white);
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: border-color 0.12s, background 0.12s;
+    line-height: 1.5;
+  }
+  .opt:hover:not(:disabled) { border-color: rgba(255,255,255,0.25); background: var(--gray3); }
+  .opt-letter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    min-width: 18px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .opt.correct { background: rgba(184,240,80,0.1); border-color: var(--green); color: var(--green); }
+  .opt.correct .opt-letter { color: var(--green); }
+  .opt.wrong { background: rgba(255,68,68,0.08); border-color: var(--red); color: var(--red); }
+  .opt.wrong .opt-letter { color: var(--red); }
+  .opt.reveal { background: rgba(184,240,80,0.06); border-color: rgba(184,240,80,0.4); color: var(--green); }
+  .opt.reveal .opt-letter { color: var(--green); }
+  .opt:disabled { cursor: default; }
+
+  /* FEEDBACK */
+  .feedback {
+    display: none;
+    margin-top: 1rem;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #999;
+    background: rgba(255,255,255,0.03);
+    border-left: 2px solid var(--gray3);
+    padding: 12px 16px;
+  }
+
+  /* NEXT */
+  .next-btn {
+    display: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 16px;
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .next-btn:hover { opacity: 0.88; }
+
+  /* RESULTS */
+  .results {
+    display: none;
+    width: 100%;
+    max-width: 620px;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  .results-logo { margin: 0 auto 2.5rem; display: block; }
+  .score-lbl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 0.4rem;
+  }
+  .score-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .score-of {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 2rem;
+  }
+  .score-msg {
+    font-size: 15px;
+    color: #bbb;
+    line-height: 1.65;
+    max-width: 380px;
+    margin: 0 auto 2.5rem;
+  }
+  .bd-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 2.5rem; }
+  .bd-item {
+    background: var(--gray);
+    border: 1px solid var(--border);
+    padding: 16px 32px;
+    text-align: center;
+    flex: 1;
+    max-width: 160px;
+  }
+  .bd-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .bd-lbl {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .bd-correct .bd-num { color: var(--green); }
+  .bd-wrong .bd-num { color: var(--red); }
+  .restart-btn {
+    padding: 16px 40px;
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.25);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .restart-btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <svg class="logo-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+    <text x="100" y="52" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="64" fill="#f5f5f0" text-anchor="middle" letter-spacing="-1">A.D</text>
+    <text x="100" y="70" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="22" fill="#f5f5f0" text-anchor="middle" letter-spacing="2">CREW</text>
+  </svg>
+  <div class="header-meta">
+    <div class="header-tag">RC Service</div>
+    <div class="header-title">Test de óptica & cámara</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-row">
+    <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+    <div class="q-num" id="counter">01 / 12</div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="container" id="quiz">
+  <div class="q-card">
+    <div class="q-label">Pregunta</div>
+    <div class="q-text" id="qtext"></div>
+  </div>
+  <div class="options" id="opts"></div>
+  <div class="feedback" id="fb"></div>
+  <button class="next-btn" id="nextbtn" onclick="next()">Siguiente</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+  <svg class="results-logo" width="240" viewBox="0 0 240 100" xmlns="http://www.w3.org/2000/svg">
+    <text x="120" y="64" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="80" fill="#f5f5f0" text-anchor="middle" letter-spacing="-1">A.D</text>
+    <text x="120" y="86" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="26" fill="#f5f5f0" text-anchor="middle" letter-spacing="3">CREW</text>
+  </svg>
+  <svg width="200" viewBox="0 0 200 24" style="display:block;margin:0 auto 2rem;" xmlns="http://www.w3.org/2000/svg">
+    <text x="100" y="17" font-family="'Barlow',Arial,sans-serif" font-weight="700" font-style="italic" font-size="15" fill="#f5f5f0" text-anchor="middle" letter-spacing="0.5">School &amp; Agency</text>
+  </svg>
+  <div class="score-lbl">Resultado final</div>
+  <div class="score-big" id="scorenum"></div>
+  <div class="score-of">de 12 correctas</div>
+  <div class="score-msg" id="scoremsg"></div>
+  <div class="bd-row">
+    <div class="bd-item bd-correct"><div class="bd-num" id="bdcorrect">0</div><div class="bd-lbl">Correctas</div></div>
+    <div class="bd-item bd-wrong"><div class="bd-num" id="bdwrong">0</div><div class="bd-lbl">Falladas</div></div>
+  </div>
+  <button class="restart-btn" onclick="restart()">Repetir quiz</button>
+</div>
+
+<script>
+const L = ['A','B','C','D'];
+const QS = [
+  {q:"¿Para qué tipo de sensor están diseñadas las lentes S35 (Super 35)?",opts:["Para sensor Full Frame","Para sensor S35 (Super 35)","Para sensor de medio formato (65mm)","Para cualquier sensor indistintamente"],ans:1,fb:"Las lentes S35 están diseñadas para cubrir el sensor S35. Si se montan en una cámara FF producen viñeteo. Al revés sí funciona: una óptica FF cubre perfectamente un sensor S35."},
+  {q:"¿Qué ocurre cuando montas una óptica S35 en una cámara Full Frame?",opts:["No pasa nada, es intercambiable","Se produce viñeteo (no cubre el sensor)","La imagen se ve más nítida","Aumenta el ángulo de visión"],ans:1,fb:"La óptica S35 no cubre el sensor FF, produciendo viñeteo (bordes oscuros). El sentido contrario sí funciona: FF sobre S35 cubre de sobra."},
+  {q:"¿Cuál es el factor de anamorfización en un sistema anamórfico?",opts:["×1.33","×1.85","×2","×2.66"],ans:2,fb:"El factor de anamorfización es ×2. La imagen se comprime horizontalmente al grabar y se descomprime en proyección, pasando del ratio 1.33 al 2.66 (CinemaScope)."},
+  {q:"¿Qué significa que un 50mm anamórfico equivale a un 25mm?",opts:["El eje vertical se comprime a la mitad","El eje horizontal es el doble: campo horizontal = 25mm esférico","El ángulo vertical es el doble que en esférico","El foco es el doble de rápido"],ans:1,fb:"En ópticas anamórficas, el eje horizontal tiene el doble de campo de visión que el vertical. Por eso un 50mm anamórfico da el mismo encuadre horizontal que un 25mm esférico."},
+  {q:"¿Qué es el 'rehousing' de ópticas fotográficas?",opts:["Alquilar lentes de otro rental","Adaptar ópticas clásicas de foto a montura de cine con nueva carcasa","Calibrar el backfocus de una lente","Cambiar el recubrimiento óptico (coating)"],ans:1,fb:"El rehousing consiste en meter ópticas clásicas de fotografía (ej. Canon FD, Helios) en una carcasa de cine con engranajes para follow focus. Se popularizó al pasar al 4K FF porque no había ópticas de cine con look vintage."},
+  {q:"¿Qué efecto visual caracteriza a las lentes anamórficas en el bokeh?",opts:["Viñeteo circular","Deformación en barril/cojín y bokeh oval","Aberración cromática azul en bordes","Flares verticales verdes"],ans:1,fb:"Las anamórficas producen deformación en barril (borde angular) y cojín, bokeh ovalado (la lente es un óvalo) y los famosos flares horizontales."},
+  {q:"¿Cuál de estas combinaciones cámara+óptica es habitual según los apuntes?",opts:["ARRI + Canon FD / RED + Signature Prime","ARRI + Signature Prime / RED + Canon FD","Sony Venice + Ultra Prime / ARRI + Helios","RED + Petzval / Sony + Ultra Prime"],ans:1,fb:"ARRI suele ir con Signature Prime (o Ultra Prime / Petzval), y RED con Canon FD o Iron Glass (Helios). Cada combinación busca un look concreto."},
+  {q:"¿Por qué las ópticas vintage ayudan cuando la cámara es muy 'sharp' (4K/FF)?",opts:["Porque son más baratas","Su imperfección (menos coating, flares, respiración) suaviza la imagen y evita el aspecto artificial","Porque cubren mejor el sensor FF","Porque tienen diafragmas más abiertos"],ans:1,fb:"Una cámara muy sharp con una lente muy sharp puede parecer falsa. Las ópticas vintage, con menos coating, flares y respiración, humanizan la imagen."},
+  {q:"¿Qué relación tiene el coating de una lente con los flares?",opts:["A más coating, más flares y veladuras","A menos coating (ópticas vintage), más flares, veladuras y variaciones de color","El coating no afecta a los flares","El coating solo afecta al color de los bordes"],ans:1,fb:"El recubrimiento antirreflejante (coating) reduce los flares. Las lentes vintage tienen menos coating, por eso producen más flares y veladuras. El coating también determina el color de los flares."},
+  {q:"¿Qué ventaja tiene el sistema RIALTO de Sony?",opts:["Divide la cámara separando el procesador del sensor+óptica para soportes compactos","Es un sistema de enfoque automático más rápido","Permite montar ópticas anamórficas en cámaras S35","Es un adaptador de montura PL a EF"],ans:0,fb:"El RIALTO separa el procesador del bloque sensor+óptica, permitiendo configuraciones compactas para steadicam, drones o cámaras en miniatura."},
+  {q:"¿A qué focal equivale el ángulo 'normal' (visión humana) en S35 y en FF?",opts:["S35: 24mm / FF: 35mm","S35: 35mm / FF: 50mm","S35: 50mm / FF: 85mm","S35: 16mm / FF: 24mm"],ans:1,fb:"En S35 el 35mm se considera normal (~35° visión humana). En FF equivale al 50mm. Al pasar de S35 a FF se multiplica la focal ×1.5 aprox. para el mismo ángulo."},
+  {q:"Como AD en el wrap out, ¿cuál es la actitud correcta ante un fallo de material?",opts:["Acusar directamente al equipo técnico responsable","Avisar al jefe sin señalar culpables y dejar tiempo para una recogida meticulosa","Llamar directamente al rental sin informar a producción","Esperar a que el DOP tome la iniciativa"],ans:1,fb:"Si hay fallos, nunca acusar al equipo — avisar al jefe. El wrap out debe ser meticuloso y con suficiente tiempo. El rental tiene teléfono de emergencias, pero se avisa a producción."}
+];
+
+let cur=0, score=0, answered=false;
+
+function render() {
+  const q=QS[cur];
+  document.getElementById('counter').textContent=String(cur+1).padStart(2,'0')+' / 12';
+  document.getElementById('prog').style.width=(cur/QS.length*100)+'%';
+  document.getElementById('qtext').textContent=q.q;
+  document.getElementById('fb').style.display='none';
+  document.getElementById('nextbtn').style.display='none';
+  answered=false;
+  const opts=document.getElementById('opts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML='<span class="opt-letter">'+L[i]+'</span><span>'+o+'</span>';
+    btn.onclick=()=>pick(i);
+    opts.appendChild(btn);
+  });
+}
+
+function pick(i) {
+  if(answered) return;
+  answered=true;
+  const q=QS[cur];
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  btns[q.ans].classList.add('reveal');
+  if(i===q.ans){btns[i].classList.remove('reveal');btns[i].classList.add('correct');score++;}
+  else{btns[i].classList.add('wrong');}
+  const fb=document.getElementById('fb');
+  fb.textContent=q.fb;
+  fb.style.display='block';
+  const nb=document.getElementById('nextbtn');
+  nb.style.display='block';
+  nb.textContent=cur<QS.length-1?'Siguiente':'Ver resultados';
+}
+
+function next() {
+  cur++;
+  if(cur>=QS.length) showResults();
+  else render();
+}
+
+function showResults() {
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('progress-wrap').style.display='none';
+  const r=document.getElementById('results');
+  r.style.display='block';
+  document.getElementById('scorenum').textContent=score;
+  document.getElementById('bdcorrect').textContent=score;
+  document.getElementById('bdwrong').textContent=QS.length-score;
+  const pct=score/QS.length;
+  let msg;
+  if(pct>=0.92) msg='Perfecto. Tienes los conceptos completamente claros. A por el siguiente bloque.';
+  else if(pct>=0.67) msg='Sólido. Repasa los que fallaste y los consolidarás.';
+  else if(pct>=0.42) msg='Vas bien. Vale la pena releer la parte de anamórfico y sensores.';
+  else msg='Vuelve a los apuntes, especialmente sensores, ópticas y anamórfico.';
+  document.getElementById('scoremsg').textContent=msg;
+}
+
+function restart() {
+  cur=0; score=0;
+  document.getElementById('quiz').style.display='block';
+  document.getElementById('progress-wrap').style.display='block';
+  document.getElementById('results').style.display='none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

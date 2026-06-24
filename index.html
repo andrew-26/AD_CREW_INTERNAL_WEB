@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD Crew — School & Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:ital,wght@0,400;0,500;1,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#080808;
+  --white:#f2f2ee;
+  --gray:#141414;
+  --gray2:#1e1e1e;
+  --gray3:#2a2a2a;
+  --dim:#555;
+  --dim2:#888;
+  --green:#b8f050;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.14);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);min-height:100vh;overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;height:60px;
+}
+.nav-logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none;}
+.nav-logo svg{height:36px;width:auto;}
+.nav-brand{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:18px;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);}
+.nav-links{display:flex;align-items:center;gap:2rem;}
+.nav-links a{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim2);text-decoration:none;transition:color 0.15s;}
+.nav-links a:hover{color:var(--white);}
+.nav-badge{font-size:10px;background:var(--green);color:#080808;font-weight:800;padding:2px 7px;letter-spacing:0.1em;margin-left:6px;vertical-align:middle;}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:6rem 2rem 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+}
+.hero-content{position:relative;text-align:center;max-width:800px;}
+.hero-tag{
+  display:inline-block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--dim2);border:1px solid var(--border2);padding:5px 14px;
+  margin-bottom:2.5rem;
+}
+.hero-logo{margin:0 auto 2rem;display:block;}
+.hero-sub{
+  font-family:'Barlow',sans-serif;font-style:italic;font-weight:600;
+  font-size:16px;letter-spacing:0.06em;color:var(--dim2);
+  margin-bottom:3rem;
+}
+.hero-desc{
+  font-size:15px;line-height:1.8;color:#999;
+  max-width:480px;margin:0 auto 3rem;
+}
+.hero-cta{
+  display:inline-block;
+  padding:16px 40px;
+  background:var(--white);color:var(--black);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;
+  text-decoration:none;
+  transition:opacity 0.15s;
+}
+.hero-cta:hover{opacity:0.88;}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-scroll::after{content:'';width:1px;height:32px;background:var(--dim);}
+
+/* ── SECTION ── */
+section{padding:6rem 2rem;}
+.section-inner{max-width:1040px;margin:0 auto;}
+.section-header{margin-bottom:3rem;}
+.section-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.22em;text-transform:uppercase;color:var(--dim2);
+  margin-bottom:0.75rem;
+}
+.section-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;
+  text-transform:uppercase;letter-spacing:0.02em;line-height:1;
+  color:var(--white);
+}
+.section-title span{color:var(--dim);}
+
+/* ── QUIZ GRID ── */
+.quiz-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+.quiz-card{
+  background:var(--gray);
+  padding:2rem;
+  display:flex;flex-direction:column;
+  gap:1rem;
+  text-decoration:none;color:inherit;
+  transition:background 0.15s;
+  position:relative;
+  overflow:hidden;
+}
+.quiz-card:hover{background:var(--gray2);}
+.quiz-card.locked{cursor:default;opacity:0.5;}
+.quiz-card.locked:hover{background:var(--gray);}
+.card-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);
+}
+.card-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;
+  text-transform:uppercase;letter-spacing:0.01em;line-height:1.1;
+  color:var(--white);
+}
+.card-desc{font-size:13px;line-height:1.65;color:var(--dim2);}
+.card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:auto;padding-top:1rem;border-top:1px solid var(--border);
+}
+.card-count{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);
+}
+.card-status{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;
+  letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;
+}
+.status-live{background:var(--green);color:#080808;}
+.status-soon{background:var(--gray3);color:var(--dim2);}
+.card-arrow{
+  position:absolute;bottom:2rem;right:2rem;
+  font-size:20px;color:var(--dim);
+  transition:transform 0.15s,color 0.15s;
+}
+.quiz-card:not(.locked):hover .card-arrow{transform:translateX(4px);color:var(--white);}
+
+/* ── HOW TO ── */
+.how-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  margin-top:3rem;
+}
+.how-item{
+  background:var(--gray);
+  padding:2rem;
+}
+.how-n{
+  font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:900;
+  color:var(--gray3);line-height:1;margin-bottom:1rem;
+}
+.how-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;
+  text-transform:uppercase;letter-spacing:0.06em;color:var(--white);
+  margin-bottom:0.5rem;
+}
+.how-desc{font-size:13px;line-height:1.65;color:var(--dim2);}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;flex-wrap:wrap;
+}
+.footer-logo{display:flex;align-items:center;gap:0.6rem;}
+.footer-logo svg{height:28px;width:auto;}
+.footer-copy{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  nav{padding:0 1.25rem;}
+  .nav-links{gap:1.2rem;}
+  .hero{padding:5rem 1.25rem 4rem;}
+  section{padding:4rem 1.25rem;}
+  .section-title{font-size:36px;}
+  .quiz-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="32" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="38" fill="#f2f2ee" letter-spacing="-1">A.D</text>
+      <text x="78" y="22" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="18" fill="#f2f2ee" letter-spacing="1">CREW</text>
+      <text x="78" y="35" font-family="'Barlow',Arial,sans-serif" font-weight="700" font-style="italic" font-size="9" fill="#666" letter-spacing="0.5">School &amp; Agency</text>
+    </svg>
+  </a>
+  <div class="nav-links">
+    <a href="#quizzes">Quizzes</a>
+    <a href="#como">Cómo funciona</a>
+    <a href="RC_SERVICE_Quiz_ADCrew.html">RC Service <span class="nav-badge">NUEVO</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">AD Crew School & Agency</div>
+    <svg class="hero-logo" width="280" viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg">
+      <text x="140" y="82" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="100" fill="#f2f2ee" text-anchor="middle" letter-spacing="-2">A.D</text>
+      <text x="140" y="108" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="30" fill="#f2f2ee" text-anchor="middle" letter-spacing="4">CREW</text>
+    </svg>
+    <div class="hero-sub">School &amp; Agency</div>
+    <div class="hero-desc">Materiales de estudio para el equipo. Quizzes semanales para consolidar los conceptos de cada clase.</div>
+    <a class="hero-cta" href="#quizzes">Ver quizzes</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</div>
+
+<!-- QUIZZES -->
+<section id="quizzes">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Materiales de estudio</div>
+      <div class="section-title">Quizzes <span>semanales</span></div>
+    </div>
+
+    <div class="quiz-grid">
+
+      <!-- ── QUIZ ACTIVO ── -->
+      <a class="quiz-card" href="RC_SERVICE_Quiz_ADCrew.html">
+        <div class="card-num">Semana 01</div>
+        <div class="card-title">RC Service<br>Óptica & Cámara</div>
+        <div class="card-desc">Sensores, ópticas, anamórfico, coating, rehousing y protocolo en rodaje como AD.</div>
+        <div class="card-meta">
+          <div class="card-count">12 preguntas</div>
+          <div class="card-status status-live">Disponible</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <!-- ══════════════════════════════════════════════
+           AÑADE AQUÍ NUEVOS QUIZZES CADA SEMANA
+           Copia este bloque, cambia el href, número,
+           título, descripción y cambia status-soon
+           por status-live cuando esté listo.
+      ══════════════════════════════════════════════ -->
+
+      <div class="quiz-card locked">
+        <div class="card-num">Semana 02</div>
+        <div class="card-title">Próximo<br>Quiz</div>
+        <div class="card-desc">El siguiente quiz estará disponible la semana que viene.</div>
+        <div class="card-meta">
+          <div class="card-count">— preguntas</div>
+          <div class="card-status status-soon">Próximamente</div>
+        </div>
+      </div>
+
+      <div class="quiz-card locked">
+        <div class="card-num">Semana 03</div>
+        <div class="card-title">Próximo<br>Quiz</div>
+        <div class="card-desc">El siguiente quiz estará disponible la semana que viene.</div>
+        <div class="card-meta">
+          <div class="card-count">— preguntas</div>
+          <div class="card-status status-soon">Próximamente</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Guía rápida</div>
+      <div class="section-title">Cómo <span>funciona</span></div>
+    </div>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-n">01</div>
+        <div class="how-title">Elige el quiz</div>
+        <div class="how-desc">Cada semana se publica uno nuevo basado en los contenidos de clase de ese bloque.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">02</div>
+        <div class="how-title">Responde</div>
+        <div class="how-desc">12 preguntas tipo test. Después de cada respuesta ves si has acertado y una explicación del concepto.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">03</div>
+        <div class="how-title">Revisa</div>
+        <div class="how-desc">Al final ves tu puntuación y qué preguntas fallaste para saber qué repasar antes de la siguiente clase.</div>
+      </div>
+      <div class="how-item">
+        <div class="how-n">04</div>
+        <div class="how-title">Repite</div>
+        <div class="how-desc">Puedes hacer el quiz las veces que quieras. El orden de respuestas es aleatorio en cada intento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <svg viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="26" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="30" fill="#f2f2ee" letter-spacing="-1">A.D</text>
+      <text x="60" y="17" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="14" fill="#f2f2ee" letter-spacing="1">CREW</text>
+      <text x="60" y="28" font-family="'Barlow',Arial,sans-serif" font-weight="700" font-style="italic" font-size="7" fill="#555" letter-spacing="0.5">School &amp; Agency</text>
+    </svg>
+  </div>
+  <div class="footer-copy">Material de uso interno — AD Crew School & Agency</div>
+</footer>
+
+</body>
+</html>
