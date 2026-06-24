@@ -15,19 +15,13 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);min-height:100vh;overflow-x:hidden;}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,8,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;}
-.nav-logo{display:flex;align-items:center;gap:0.75rem;text-decoration:none;}
 .nav-back{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim2);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.15s;}
 .nav-back:hover{color:var(--white);}
 .nav-back::before{content:'←';font-size:16px;}
 .nav-week{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);}
 
-/* HERO DE SEMANA */
-.week-hero{
-  padding:9rem 2rem 4rem;
-  max-width:900px;margin:0 auto;
-}
+.week-hero{padding:9rem 2rem 4rem;max-width:900px;margin:0 auto;}
 .week-eyebrow{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim2);margin-bottom:1rem;}
 .week-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(48px,8vw,88px);font-weight:900;text-transform:uppercase;line-height:0.95;letter-spacing:-0.01em;color:var(--white);margin-bottom:1.5rem;}
 .week-title span{color:var(--dim);}
@@ -35,50 +29,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,8,8,0.92);
 .week-tags{display:flex;flex-wrap:wrap;gap:8px;}
 .tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:5px 12px;border:1px solid var(--border2);color:var(--dim2);}
 
-/* DIVISOR */
 .divider{border:none;border-top:1px solid var(--border);margin:0 2rem;}
 
-/* RECURSOS GRID */
 .recursos{padding:4rem 2rem 6rem;max-width:900px;margin:0 auto;}
 .recursos-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);margin-bottom:2rem;}
-
 .recursos-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
 
-.recurso-card{
-  background:var(--gray);padding:2.5rem 2rem;
-  display:flex;flex-direction:column;gap:1.25rem;
-  text-decoration:none;color:inherit;
-  transition:background 0.15s;
-  position:relative;overflow:hidden;
-  cursor:pointer;
-}
+.recurso-card{background:var(--gray);padding:2.5rem 2rem;display:flex;flex-direction:column;gap:1.25rem;text-decoration:none;color:inherit;transition:background 0.15s;position:relative;overflow:hidden;cursor:pointer;}
 .recurso-card:hover{background:var(--gray2);}
-.recurso-card.disabled{opacity:0.35;cursor:not-allowed;pointer-events:none;}
-
-.recurso-icon{
-  width:48px;height:48px;
-  border:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
-}
-.recurso-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);}
-.recurso-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:0.01em;line-height:1.05;color:var(--white);}
-.recurso-desc{font-size:13px;line-height:1.65;color:var(--dim2);}
-
-.recurso-footer{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:1.25rem;border-top:1px solid var(--border);}
-.recurso-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;}
-.badge-live{background:var(--green);color:#080808;}
-.badge-soon{background:var(--gray3);color:var(--dim2);}
-.recurso-arrow{font-size:18px;color:var(--dim);transition:transform 0.15s,color 0.15s;}
-.recurso-card:hover .recurso-arrow{transform:translateX(4px);color:var(--white);}
-
-/* ACCENT LINE en hover */
 .recurso-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);transform:scaleY(0);transform-origin:bottom;transition:transform 0.2s ease;}
 .recurso-card:hover::before{transform:scaleY(1);}
 
-/* NOTA */
-.nota{margin-top:3rem;padding:1.25rem 1.5rem;border:1px solid var(--border);background:var(--gray);font-size:13px;color:var(--dim2);line-height:1.7;}
-.nota strong{color:var(--white);font-weight:600;}
+.recurso-icon{width:48px;height:48px;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.recurso-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);}
+.recurso-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:0.01em;line-height:1.05;color:var(--white);}
+.recurso-desc{font-size:13px;line-height:1.65;color:var(--dim2);}
+.recurso-footer{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:1.25rem;border-top:1px solid var(--border);}
+.recurso-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;}
+.badge-live{background:var(--green);color:#080808;}
+.recurso-arrow{font-size:18px;color:var(--dim);transition:transform 0.15s,color 0.15s;}
+.recurso-card:hover .recurso-arrow{transform:translateX(4px);color:var(--white);}
+
+/* MODAL para mapa y audio */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;padding:1.5rem;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--gray);border:1px solid var(--border2);max-width:900px;width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);}
+.modal-close{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim2);background:none;border:1px solid var(--border2);padding:6px 14px;cursor:pointer;color:var(--white);transition:background 0.15s;}
+.modal-close:hover{background:var(--gray3);}
+.modal-body{flex:1;overflow:auto;padding:1.5rem;display:flex;align-items:center;justify-content:center;}
+.modal-body img{max-width:100%;height:auto;display:block;}
+.modal-body audio{width:100%;}
 
 footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
 .footer-copy{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);}
@@ -106,9 +88,8 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
   </div>
 </nav>
 
-<!-- HERO SEMANA -->
 <div class="week-hero">
-  <div class="week-eyebrow">Semana 01 — RC Service</div>
+  <div class="week-eyebrow">Semana 01 — RC Service &nbsp;·&nbsp; 16 de junio de 2026</div>
   <h1 class="week-title">Óptica<br><span>&</span> Cámara</h1>
   <p class="week-desc">Sensores, ópticas, anamórfico, coating, rehousing y protocolo en rodaje como AD. Elige el formato con el que prefieres estudiar.</p>
   <div class="week-tags">
@@ -122,15 +103,13 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
 
 <hr class="divider">
 
-<!-- RECURSOS -->
 <div class="recursos">
   <div class="recursos-title">Elige tu formato</div>
-
   <div class="recursos-grid">
 
     <!-- QUIZ -->
     <a class="recurso-card" href="RC_SERVICE_Quiz_ADCrew.html">
-      <div class="recurso-icon">⬡</div>
+      <div class="recurso-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2f2ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
       <div>
         <div class="recurso-label">Formato 01</div>
         <div class="recurso-title">Quiz<br>interactivo</div>
@@ -143,52 +122,68 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
     </a>
 
     <!-- AUDIO -->
-    <div class="recurso-card disabled" id="card-audio">
-      <div class="recurso-icon">◎</div>
+    <div class="recurso-card" onclick="openModal('modal-audio')">
+      <div class="recurso-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2f2ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg></div>
       <div>
         <div class="recurso-label">Formato 02</div>
         <div class="recurso-title">Audio<br>explicativo</div>
       </div>
       <div class="recurso-desc">Resumen narrado de los conceptos clave de la sesión. Ideal para escuchar en desplazamientos.</div>
       <div class="recurso-footer">
-        <div class="recurso-badge badge-soon">Próximamente</div>
+        <div class="recurso-badge badge-live">Disponible</div>
+        <div class="recurso-arrow">→</div>
       </div>
     </div>
 
     <!-- MAPA -->
-    <div class="recurso-card disabled" id="card-mapa">
-      <div class="recurso-icon">◈</div>
+    <a class="recurso-card" href="https://notebooklm.google.com/notebook/e26b45e8-3ca6-49b0-b882-7475fe1cc113/artifact/82c33cb0-6741-404d-ad56-61556dcf9bdd" target="_blank" rel="noopener">
+      <div class="recurso-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2f2ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><circle cx="12" cy="14" r="2"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="5.5" y1="18" x2="10.5" y2="15"/><line x1="18.5" y1="18" x2="13.5" y2="15"/></svg></div>
       <div>
         <div class="recurso-label">Formato 03</div>
         <div class="recurso-title">Mapa<br>conceptual</div>
       </div>
       <div class="recurso-desc">Esquema visual de todos los conceptos y sus relaciones. Para tener una visión global del bloque.</div>
       <div class="recurso-footer">
-        <div class="recurso-badge badge-soon">Próximamente</div>
+        <div class="recurso-badge badge-live">Disponible</div>
+        <div class="recurso-arrow">→</div>
       </div>
-    </div>
+    </a>
 
     <!-- APUNTES -->
-    <div class="recurso-card disabled" id="card-apuntes">
-      <div class="recurso-icon">▣</div>
+    <a class="recurso-card" href="semana-01-apuntes.pdf" target="_blank">
+      <div class="recurso-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2f2ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
       <div>
         <div class="recurso-label">Formato 04</div>
         <div class="recurso-title">Apuntes<br>PDF</div>
       </div>
       <div class="recurso-desc">Documento completo con los apuntes de la sesión, referencias y términos clave para consulta.</div>
       <div class="recurso-footer">
-        <div class="recurso-badge badge-soon">Próximamente</div>
+        <div class="recurso-badge badge-live">Disponible</div>
+        <div class="recurso-arrow">→</div>
       </div>
-    </div>
+    </a>
 
-  </div>
-
-  <div class="nota">
-    <strong>Para activar audio, mapa y apuntes:</strong> sube los archivos al repo con los nombres
-    <code>semana-01-audio.mp3</code>, <code>semana-01-mapa.pdf</code> y <code>semana-01-apuntes.pdf</code>
-    y avisa para actualizar los enlaces.
   </div>
 </div>
+
+<!-- MODAL AUDIO -->
+<div class="modal-overlay" id="modal-audio" onclick="closeOnOverlay(event,'modal-audio')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Audio explicativo — Semana 01</div>
+      <button class="modal-close" onclick="closeModal('modal-audio')">✕ Cerrar</button>
+    </div>
+    <div class="modal-body" style="flex-direction:column;gap:1rem;">
+      <p style="font-size:13px;color:#999;text-align:center;">RC Service — Óptica & Cámara</p>
+      <audio controls style="width:100%;">
+        <source src="semana-01-audio.m4a" type="audio/mp4">
+        Tu navegador no soporta audio HTML5.
+      </audio>
+    </div>
+  </div>
+</div>
+
+
 
 <footer>
   <svg style="height:26px;width:auto;" viewBox="0 0 120 32" xmlns="http://www.w3.org/2000/svg">
@@ -199,5 +194,11 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
   <div class="footer-copy">Material de uso interno — AD Crew School & Agency</div>
 </footer>
 
+<script>
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function closeOnOverlay(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');});document.body.style.overflow='';}});
+</script>
 </body>
 </html>

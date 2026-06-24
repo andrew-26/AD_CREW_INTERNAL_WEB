@@ -102,9 +102,41 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
   .weeks-grid{grid-template-columns:1fr;}
   footer{flex-direction:column;align-items:flex-start;}
 }
+
+/* LOGIN */
+.login-overlay{position:fixed;inset:0;z-index:999;background:#080808;display:flex;align-items:center;justify-content:center;padding:2rem;}
+.login-box{width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;gap:2rem;}
+.login-logo{margin-bottom:0.5rem;}
+.login-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim2);text-align:center;}
+.login-fields{width:100%;display:flex;flex-direction:column;gap:8px;}
+.login-fields input{width:100%;background:var(--gray);border:1px solid var(--border2);padding:14px 16px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--white);outline:none;transition:border-color 0.15s;}
+.login-fields input::placeholder{color:var(--dim);}
+.login-fields input:focus{border-color:rgba(255,255,255,0.35);}
+.login-btn{width:100%;padding:16px;background:var(--white);color:var(--black);border:none;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;transition:opacity 0.15s;}
+.login-btn:hover{opacity:0.88;}
+.login-error{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);display:none;text-align:center;}
+.login-error.show{display:block;}
 </style>
 </head>
 <body>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <svg class="login-logo" width="200" viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg">
+      <text x="140" y="82" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="100" fill="#f2f2ee" text-anchor="middle" letter-spacing="-2">A.D</text>
+      <text x="140" y="108" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="30" fill="#f2f2ee" text-anchor="middle" letter-spacing="4">CREW</text>
+    </svg>
+    <div class="login-title">Acceso interno — School & Agency</div>
+    <div class="login-fields">
+      <input type="text" id="loginUser" placeholder="Usuario" autocomplete="off">
+      <input type="password" id="loginPass" placeholder="Contraseña" autocomplete="off">
+    </div>
+    <div class="login-error" id="loginError">Usuario o contraseña incorrectos</div>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
 
 <nav>
   <a class="nav-logo" href="#">
@@ -247,6 +279,36 @@ footer{border-top:1px solid var(--border);padding:2rem;display:flex;align-items:
   </svg>
   <div class="footer-copy">Material de uso interno — AD Crew School & Agency</div>
 </footer>
+
+
+<script>
+const USERS = {
+  'adcrew': 'crew2026',
+  'andrew': 'adcrew26'
+};
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim().toLowerCase();
+  const p = document.getElementById('loginPass').value;
+  if (USERS[u] && USERS[u] === p) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    sessionStorage.setItem('adcrew_auth', '1');
+  } else {
+    document.getElementById('loginError').classList.add('show');
+    document.getElementById('loginPass').value = '';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+if (!sessionStorage.getItem('adcrew_auth')) {
+  document.getElementById('loginOverlay').style.display = 'flex';
+} else {
+  document.getElementById('loginOverlay').style.display = 'none';
+}
+</script>
 
 </body>
 </html>
