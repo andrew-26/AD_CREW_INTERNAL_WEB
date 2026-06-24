@@ -444,9 +444,11 @@ function doLogin() {
       'Fluye, pero desde tierra firme.'
     ];
     const weekIndex=Math.floor(Date.now()/(1000*60*60*24*7));
-    const p=phrases[weekIndex%phrases.length];
-    sessionStorage.setItem('adcrew_phrase',p);
+    const phrase=phrases[weekIndex%phrases.length];
+    sessionStorage.setItem('adcrew_phrase',phrase);
     sessionStorage.setItem('adcrew_auth','1');
+    const el=document.getElementById('navPhrase');
+    if(el) el.textContent=phrase;
     err.classList.remove('show');
   } else {
     err.classList.add('show');
