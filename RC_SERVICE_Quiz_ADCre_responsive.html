@@ -4,284 +4,184 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz RC Service — AD Crew</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --black: #0a0a0a;
-    --white: #f5f5f0;
-    --gray: #1c1c1c;
-    --gray2: #242424;
-    --gray3: #333;
-    --dim: #666;
-    --green: #b8f050;
-    --red: #ff4444;
-    --border: rgba(255,255,255,0.08);
-  }
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--black);
-    color: var(--white);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 5rem;
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --black:#0a0a0a;--white:#f5f5f0;--gray:#1c1c1c;--gray2:#242424;
+  --gray3:#333;--dim:#666;--green:#b8f050;--red:#ff4444;
+  --border:rgba(255,255,255,0.08);
+}
+body{
+  font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding-bottom:4rem;
+}
 
-  /* HEADER */
-  .header {
-    width: 100%;
-    background: var(--black);
-    border-bottom: 1px solid var(--border);
-    padding: 1.25rem 2rem;
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  .logo-svg { height: 56px; width: auto; flex-shrink: 0; }
-  .header-meta {
-    border-left: 1px solid var(--border);
-    padding-left: 1.5rem;
-  }
-  .header-tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 2px;
-  }
-  .header-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--white);
-  }
+/* HEADER */
+.header{
+  width:100%;background:var(--black);border-bottom:1px solid var(--border);
+  padding:1rem 1.5rem;display:flex;align-items:center;gap:1.25rem;
+}
+.logo-svg{height:48px;width:auto;flex-shrink:0;}
+.header-meta{border-left:1px solid var(--border);padding-left:1.25rem;min-width:0;}
+.header-tag{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin-bottom:2px;
+}
+.header-title{
+  font-family:'Barlow Condensed',sans-serif;font-size:clamp(15px,4vw,20px);
+  font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 
-  /* PROGRESS */
-  .progress-wrap {
-    width: 100%;
-    max-width: 620px;
-    padding: 2rem 1.5rem 0;
-  }
-  .progress-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .progress-track {
-    flex: 1;
-    height: 2px;
-    background: var(--gray3);
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--white);
-    transition: width 0.4s ease;
-  }
-  .q-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--dim);
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+/* NAV BACK */
+.nav-back-wrap{
+  width:100%;max-width:620px;padding:1rem 1.5rem 0;
+}
+.nav-back{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  transition:color 0.15s;
+}
+.nav-back:hover{color:var(--white);}
+.nav-back::before{content:'←';font-size:14px;}
 
-  /* CONTAINER */
-  .container {
-    width: 100%;
-    max-width: 620px;
-    padding: 1.5rem 1.5rem 0;
-  }
+/* PROGRESS */
+.progress-wrap{width:100%;max-width:620px;padding:1.25rem 1.5rem 0;}
+.progress-row{display:flex;align-items:center;gap:12px;}
+.progress-track{flex:1;height:2px;background:var(--gray3);}
+.progress-fill{height:100%;background:var(--white);transition:width 0.4s ease;}
+.q-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:0.12em;color:var(--dim);text-transform:uppercase;white-space:nowrap;
+}
 
-  /* QUESTION */
-  .q-card {
-    background: var(--gray);
-    border: 1px solid var(--border);
-    padding: 1.75rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-  .q-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 0.75rem;
-  }
-  .q-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1.3;
-    color: var(--white);
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
-  }
+/* CONTAINER */
+.container{width:100%;max-width:620px;padding:1.25rem 1.5rem 0;}
 
-  /* OPTIONS */
-  .options { display: flex; flex-direction: column; gap: 6px; }
-  .opt {
-    background: var(--gray2);
-    border: 1px solid var(--border);
-    padding: 14px 16px;
-    font-family: 'Barlow', sans-serif;
-    font-size: 14px;
-    color: var(--white);
-    cursor: pointer;
-    text-align: left;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    transition: border-color 0.12s, background 0.12s;
-    line-height: 1.5;
-  }
-  .opt:hover:not(:disabled) { border-color: rgba(255,255,255,0.25); background: var(--gray3); }
-  .opt-letter {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--dim);
-    min-width: 18px;
-    margin-top: 1px;
-    flex-shrink: 0;
-  }
-  .opt.correct { background: rgba(184,240,80,0.1); border-color: var(--green); color: var(--green); }
-  .opt.correct .opt-letter { color: var(--green); }
-  .opt.wrong { background: rgba(255,68,68,0.08); border-color: var(--red); color: var(--red); }
-  .opt.wrong .opt-letter { color: var(--red); }
-  .opt.reveal { background: rgba(184,240,80,0.06); border-color: rgba(184,240,80,0.4); color: var(--green); }
-  .opt.reveal .opt-letter { color: var(--green); }
-  .opt:disabled { cursor: default; }
+/* QUESTION */
+.q-card{
+  background:var(--gray);border:1px solid var(--border);
+  padding:1.5rem 1.25rem;margin-bottom:0.875rem;
+}
+.q-label{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin-bottom:0.625rem;
+}
+.q-text{
+  font-family:'Barlow Condensed',sans-serif;font-size:clamp(17px,4.5vw,22px);
+  font-weight:800;line-height:1.3;color:var(--white);
+  text-transform:uppercase;letter-spacing:0.01em;
+}
 
-  /* FEEDBACK */
-  .feedback {
-    display: none;
-    margin-top: 1rem;
-    font-size: 13px;
-    line-height: 1.7;
-    color: #999;
-    background: rgba(255,255,255,0.03);
-    border-left: 2px solid var(--gray3);
-    padding: 12px 16px;
-  }
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:5px;}
+.opt{
+  background:var(--gray2);border:1px solid var(--border);
+  padding:13px 14px;font-family:'Barlow',sans-serif;
+  font-size:clamp(13px,3.5vw,14px);color:var(--white);cursor:pointer;
+  text-align:left;display:flex;align-items:flex-start;gap:12px;
+  transition:border-color 0.12s,background 0.12s;line-height:1.5;
+  -webkit-appearance:none;border-radius:0;width:100%;
+}
+.opt:hover:not(:disabled){border-color:rgba(255,255,255,0.25);background:var(--gray3);}
+.opt-letter{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);
+  min-width:16px;margin-top:1px;flex-shrink:0;
+}
+.opt.correct{background:rgba(184,240,80,0.1);border-color:var(--green);color:var(--green);}
+.opt.correct .opt-letter{color:var(--green);}
+.opt.wrong{background:rgba(255,68,68,0.08);border-color:var(--red);color:var(--red);}
+.opt.wrong .opt-letter{color:var(--red);}
+.opt.reveal{background:rgba(184,240,80,0.06);border-color:rgba(184,240,80,0.4);color:var(--green);}
+.opt.reveal .opt-letter{color:var(--green);}
+.opt:disabled{cursor:default;}
 
-  /* NEXT */
-  .next-btn {
-    display: none;
-    width: 100%;
-    margin-top: 1rem;
-    padding: 16px;
-    background: var(--white);
-    color: var(--black);
-    border: none;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .next-btn:hover { opacity: 0.88; }
+/* FEEDBACK */
+.feedback{
+  display:none;margin-top:0.875rem;font-size:13px;line-height:1.7;color:#999;
+  background:rgba(255,255,255,0.03);border-left:2px solid var(--gray3);
+  padding:12px 14px;
+}
 
-  /* RESULTS */
-  .results {
-    display: none;
-    width: 100%;
-    max-width: 620px;
-    padding: 3rem 1.5rem;
-    text-align: center;
-  }
-  .results-logo { margin: 0 auto 2.5rem; display: block; }
-  .score-lbl {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 0.4rem;
-  }
-  .score-big {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 96px;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--white);
-    letter-spacing: -0.02em;
-  }
-  .score-of {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--dim);
-    margin-bottom: 2rem;
-  }
-  .score-msg {
-    font-size: 15px;
-    color: #bbb;
-    line-height: 1.65;
-    max-width: 380px;
-    margin: 0 auto 2.5rem;
-  }
-  .bd-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 2.5rem; }
-  .bd-item {
-    background: var(--gray);
-    border: 1px solid var(--border);
-    padding: 16px 32px;
-    text-align: center;
-    flex: 1;
-    max-width: 160px;
-  }
-  .bd-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 40px;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .bd-lbl {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-  .bd-correct .bd-num { color: var(--green); }
-  .bd-wrong .bd-num { color: var(--red); }
-  .restart-btn {
-    padding: 16px 40px;
-    background: transparent;
-    color: var(--white);
-    border: 1px solid rgba(255,255,255,0.25);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .restart-btn:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+/* NEXT */
+.next-btn{
+  display:none;width:100%;margin-top:0.875rem;padding:15px;
+  background:var(--white);color:var(--black);border:none;
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;
+  letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;
+  transition:opacity 0.15s;-webkit-appearance:none;border-radius:0;
+}
+.next-btn:hover{opacity:0.88;}
+
+/* RESULTS */
+.results{
+  display:none;width:100%;max-width:620px;
+  padding:2.5rem 1.5rem;text-align:center;
+}
+.results-logo{margin:0 auto 2rem;display:block;}
+.score-lbl{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);margin-bottom:0.4rem;
+}
+.score-big{
+  font-family:'Barlow Condensed',sans-serif;font-size:clamp(64px,20vw,96px);
+  font-weight:900;line-height:1;color:var(--white);letter-spacing:-0.02em;
+}
+.score-of{
+  font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem;
+}
+.score-msg{
+  font-size:14px;color:#bbb;line-height:1.65;
+  max-width:360px;margin:0 auto 2rem;
+}
+.bd-row{display:flex;gap:8px;justify-content:center;margin-bottom:2rem;}
+.bd-item{
+  background:var(--gray);border:1px solid var(--border);
+  padding:14px 24px;text-align:center;flex:1;max-width:150px;
+}
+.bd-num{
+  font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;
+  line-height:1;margin-bottom:4px;
+}
+.bd-lbl{
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);
+}
+.bd-correct .bd-num{color:var(--green);}
+.bd-wrong .bd-num{color:var(--red);}
+.restart-btn{
+  padding:15px 36px;background:transparent;color:var(--white);
+  border:1px solid rgba(255,255,255,0.25);
+  font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;
+  transition:background 0.15s,border-color 0.15s;
+  -webkit-appearance:none;border-radius:0;
+}
+.restart-btn:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.4);}
+
+/* RESPONSIVE */
+@media(max-width:480px){
+  .header{padding:0.875rem 1rem;gap:1rem;}
+  .logo-svg{height:40px;}
+  .header-meta{padding-left:1rem;}
+  .nav-back-wrap{padding:0.875rem 1rem 0;}
+  .progress-wrap{padding:1rem 1rem 0;}
+  .container{padding:1rem 1rem 0;}
+  .q-card{padding:1.25rem 1rem;}
+  .opt{padding:12px;}
+  .feedback{padding:10px 12px;}
+  .results{padding:2rem 1rem;}
+  .bd-item{padding:12px 16px;}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <svg class="logo-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
     <text x="100" y="52" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="64" fill="#f5f5f0" text-anchor="middle" letter-spacing="-1">A.D</text>
@@ -293,7 +193,10 @@
   </div>
 </div>
 
-<!-- PROGRESS -->
+<div class="nav-back-wrap">
+  <a class="nav-back" href="semana-01.html">Semana 01</a>
+</div>
+
 <div class="progress-wrap" id="progress-wrap">
   <div class="progress-row">
     <div class="progress-track"><div class="progress-fill" id="prog" style="width:0%"></div></div>
@@ -301,7 +204,6 @@
   </div>
 </div>
 
-<!-- QUIZ -->
 <div class="container" id="quiz">
   <div class="q-card">
     <div class="q-label">Pregunta</div>
@@ -312,13 +214,12 @@
   <button class="next-btn" id="nextbtn" onclick="next()">Siguiente</button>
 </div>
 
-<!-- RESULTS -->
 <div class="results" id="results">
-  <svg class="results-logo" width="240" viewBox="0 0 240 100" xmlns="http://www.w3.org/2000/svg">
+  <svg class="results-logo" width="200" viewBox="0 0 240 100" xmlns="http://www.w3.org/2000/svg">
     <text x="120" y="64" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="80" fill="#f5f5f0" text-anchor="middle" letter-spacing="-1">A.D</text>
     <text x="120" y="86" font-family="'Barlow Condensed',Impact,sans-serif" font-weight="900" font-size="26" fill="#f5f5f0" text-anchor="middle" letter-spacing="3">CREW</text>
   </svg>
-  <svg width="200" viewBox="0 0 200 24" style="display:block;margin:0 auto 2rem;" xmlns="http://www.w3.org/2000/svg">
+  <svg width="160" viewBox="0 0 200 24" style="display:block;margin:0 auto 1.5rem;" xmlns="http://www.w3.org/2000/svg">
     <text x="100" y="17" font-family="'Barlow',Arial,sans-serif" font-weight="700" font-style="italic" font-size="15" fill="#f5f5f0" text-anchor="middle" letter-spacing="0.5">School &amp; Agency</text>
   </svg>
   <div class="score-lbl">Resultado final</div>
@@ -333,8 +234,8 @@
 </div>
 
 <script>
-const L = ['A','B','C','D'];
-const QS = [
+const L=['A','B','C','D'];
+const QS=[
   {q:"¿Para qué tipo de sensor están diseñadas las lentes S35 (Super 35)?",opts:["Para sensor Full Frame","Para sensor S35 (Super 35)","Para sensor de medio formato (65mm)","Para cualquier sensor indistintamente"],ans:1,fb:"Las lentes S35 están diseñadas para cubrir el sensor S35. Si se montan en una cámara FF producen viñeteo. Al revés sí funciona: una óptica FF cubre perfectamente un sensor S35."},
   {q:"¿Qué ocurre cuando montas una óptica S35 en una cámara Full Frame?",opts:["No pasa nada, es intercambiable","Se produce viñeteo (no cubre el sensor)","La imagen se ve más nítida","Aumenta el ángulo de visión"],ans:1,fb:"La óptica S35 no cubre el sensor FF, produciendo viñeteo (bordes oscuros). El sentido contrario sí funciona: FF sobre S35 cubre de sobra."},
   {q:"¿Cuál es el factor de anamorfización en un sistema anamórfico?",opts:["×1.33","×1.85","×2","×2.66"],ans:2,fb:"El factor de anamorfización es ×2. La imagen se comprime horizontalmente al grabar y se descomprime en proyección, pasando del ratio 1.33 al 2.66 (CinemaScope)."},
@@ -349,9 +250,9 @@ const QS = [
   {q:"Como AD en el wrap out, ¿cuál es la actitud correcta ante un fallo de material?",opts:["Acusar directamente al equipo técnico responsable","Avisar al jefe sin señalar culpables y dejar tiempo para una recogida meticulosa","Llamar directamente al rental sin informar a producción","Esperar a que el DOP tome la iniciativa"],ans:1,fb:"Si hay fallos, nunca acusar al equipo — avisar al jefe. El wrap out debe ser meticuloso y con suficiente tiempo. El rental tiene teléfono de emergencias, pero se avisa a producción."}
 ];
 
-let cur=0, score=0, answered=false;
+let cur=0,score=0,answered=false;
 
-function render() {
+function render(){
   const q=QS[cur];
   document.getElementById('counter').textContent=String(cur+1).padStart(2,'0')+' / 12';
   document.getElementById('prog').style.width=(cur/QS.length*100)+'%';
@@ -370,8 +271,8 @@ function render() {
   });
 }
 
-function pick(i) {
-  if(answered) return;
+function pick(i){
+  if(answered)return;
   answered=true;
   const q=QS[cur];
   const btns=document.querySelectorAll('.opt');
@@ -387,15 +288,16 @@ function pick(i) {
   nb.textContent=cur<QS.length-1?'Siguiente':'Ver resultados';
 }
 
-function next() {
+function next(){
   cur++;
-  if(cur>=QS.length) showResults();
+  if(cur>=QS.length)showResults();
   else render();
 }
 
-function showResults() {
+function showResults(){
   document.getElementById('quiz').style.display='none';
   document.getElementById('progress-wrap').style.display='none';
+  document.querySelector('.nav-back-wrap').style.display='none';
   const r=document.getElementById('results');
   r.style.display='block';
   document.getElementById('scorenum').textContent=score;
@@ -403,17 +305,18 @@ function showResults() {
   document.getElementById('bdwrong').textContent=QS.length-score;
   const pct=score/QS.length;
   let msg;
-  if(pct>=0.92) msg='Perfecto. Tienes los conceptos completamente claros. A por el siguiente bloque.';
-  else if(pct>=0.67) msg='Sólido. Repasa los que fallaste y los consolidarás.';
-  else if(pct>=0.42) msg='Vas bien. Vale la pena releer la parte de anamórfico y sensores.';
+  if(pct>=0.92)msg='Perfecto. Tienes los conceptos completamente claros. A por el siguiente bloque.';
+  else if(pct>=0.67)msg='Sólido. Repasa los que fallaste y los consolidarás.';
+  else if(pct>=0.42)msg='Vas bien. Vale la pena releer la parte de anamórfico y sensores.';
   else msg='Vuelve a los apuntes, especialmente sensores, ópticas y anamórfico.';
   document.getElementById('scoremsg').textContent=msg;
 }
 
-function restart() {
-  cur=0; score=0;
+function restart(){
+  cur=0;score=0;
   document.getElementById('quiz').style.display='block';
   document.getElementById('progress-wrap').style.display='block';
+  document.querySelector('.nav-back-wrap').style.display='block';
   document.getElementById('results').style.display='none';
   render();
 }
